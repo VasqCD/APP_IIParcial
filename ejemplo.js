@@ -140,3 +140,37 @@ saludo2();
 
 setTimeout(saludo2, 3000);
 
+
+// funciones de orden superior
+
+function operacion(numero1, numero2, operacion)
+{
+    return operacion(numero1, numero2);
+}
+
+function sumar3(numero1, numero2)
+{
+    return numero1 + numero2;
+}
+
+function restar(numero1, numero2)
+{
+    return numero1 - numero2;
+}
+
+let resultado4 = operacion(10, 20, sumar3);
+let resultado5 = operacion(10, 20, restar);
+
+console.log(resultado4);
+console.log(resultado5);
+
+// funciones anonimas
+
+let resultado6 = operacion(10, 20, function(numero1, numero2){
+    return numero1 * numero2;
+
+}
+);
+
+console.log(resultado6);
+
