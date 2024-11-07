@@ -1,0 +1,19 @@
+meta {
+  name: crearMensajePersona
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{URL_LOC}}:{{PORT_INI}}/MensajePersona
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nombre": "Christian N",
+    "mensaje": "Cuarto mensaje",
+    "edad": 26
+  }
+}

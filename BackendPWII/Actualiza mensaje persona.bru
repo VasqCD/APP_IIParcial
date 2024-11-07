@@ -1,0 +1,23 @@
+meta {
+  name: Actualiza mensaje persona
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{URL_LOC}}:{{PORT_INI}}/MensajePersona/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 672c3db47d4ec1dc10b90d38
+}
+
+body:json {
+  {
+    "nombre": "Christian N actualizado",
+    "mensaje": "Cuarto mensaje Acualizadooo",
+    "edad": 26
+  }
+}

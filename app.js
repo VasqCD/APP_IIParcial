@@ -1,5 +1,21 @@
 const express = require('express'); // llamamos a express
-const app = express();  // llamamos a express para inicializar la app
+const mongoose = require('mongoose'); // llamamos a mongoose
+const MensajePersonaRoute = require('./routes/MensajePersonaRoute'); //importo el archivo de rutas
+
+// realizar la conexion a la base de datos
+mongoose.connect('mongodb://localhost:27017/AppIIParcialPWII')
+    .then(() => { // si la conexion es exitosa
+        console.log('Conexion a la base de datos exitosa'); // se imprime un mensaje en la consola
+    })
+    .catch((err) => { // si hay un error en la conexion
+        console.log('Error en la conexion a la base de datos: ', err); // se imprime el error en la consola
+    });
+
+    const app = express();  // llamamos a express para inicializar la app
+
+    app.use(express.json()); // para que la app pueda entender json
+
+    MensajePersonaRoute(app); //llamo a la funcion que exporte en el archivo de rutas y le paso la app
 
 // primero hacer dos endpoints
 // es decir la ruta o url que se va a llamar
