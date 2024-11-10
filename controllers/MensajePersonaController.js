@@ -40,17 +40,17 @@ exports.createMensajePersona = async (req, res) => {
         // Validar que no queden campos vacios o nulos
 
         /*
-            se puede validar de dos formas diferentes 
-            1. Validar cada campo por separado
-            2. Validar todos los campos al mismo tiempo
-    
-            En este ejemplo se esta validando todos los campos al mismo tiempo
-    
-            ej:
-                if(!pNombre || !pMensaje || !pEdad){
-                return res.status(400).send({message: 'Todos los campos son obligatorios'}); //se envia un mensaje de error al cliente
-            }
-                */
+                se puede validar de dos formas diferentes 
+                1. Validar cada campo por separado
+                2. Validar todos los campos al mismo tiempo
+        
+                En este ejemplo se esta validando todos los campos al mismo tiempo
+        
+                ej:
+                    if(!pNombre || !pMensaje || !pEdad){
+                    return res.status(400).send({message: 'Todos los campos son obligatorios'}); //se envia un mensaje de error al cliente
+                }
+                    */
 
         //se valida cada campo por separado
         if (!pNombre) {
@@ -115,7 +115,6 @@ exports.getMensajePersonaById = async (req, res) => {
 //nota: con el metodo get no se puede enviar variables en el body de la peticion, se deben enviar por la url
 //hay dos tipos: query params y path params
 
-
 // creado el servicio de actualizacion de registros
 
 exports.updateMensajePersona = async (req, res) => {
@@ -151,18 +150,43 @@ exports.updateMensajePersona = async (req, res) => {
         }
 
         // se actualiza el registro en la base de datos
-        const actualizarMensajePersona = await MensajePersona.findByIdAndUpdate(id, mensaje);
+        const actualizarMensajePersona = await MensajePersona.findByIdAndUpdate(
+            id,
+            mensaje
+        );
 
         if (actualizarMensajePersona) {
             res.status(200).send(actualizarMensajePersona); //se envia un mensaje de exito al cliente
+            return;
         } else {
             res.status(404).send({ message: "Mensaje no encontrado" }); //se envia un mensaje de error al cliente
+            return;
         }
-
-
     } catch (err) {
         //si hay un error
         console.log("Error en updateMensajePersona: ", err); //se imprime el error en la consola
         res.status(500).send({ message: "Error en el servidor" }); //se envia un mensaje de error al cliente
     }
-}
+};
+
+// creado el servicio de eliminacion de registros
+// usando funcion flecha asinrona
+
+exports.deleteMensajePersona = async (req, res) => {
+    try {
+        const { id } = req.params; //obtener el id de la url que se recibe
+
+        //eliminar el registro de la base de datos
+        const deleteMensajePersona = await MensajePersona.findByIdAndDelete(id);
+        if (deleteMensajePersona) {
+            res.status(200).send(deleteMensajePersona); //se envia un mensaje de exito al cliente
+            return;
+        } else {
+            res.status(404).send("Mensaje no encontrado con el id especificado" ); //se envia un mensaje de error al cliente
+            return;
+        }
+    } catch (err) {
+        console.log("Error en deleteMensajePersona: ", err);
+        res.status(500).send("Error en el servidor");
+    }
+};

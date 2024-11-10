@@ -8,6 +8,7 @@ module.exports = (app) => {
     app.get('/MensajePersona', MensajePersonaController.getAllMensajePersona); //cuando se haga una peticion GET a /MensajePersona se ejecuta la funcion getMensajePersona del controlador
     app.get('/MensajePersona/:id', MensajePersonaController.getMensajePersonaById); //cuando se haga una peticion GET a /MensajePersona se ejecuta la funcion getMensajePersona del controlador
     app.put('/MensajePersona/:id', MensajePersonaController.updateMensajePersona); //cuando se haga una peticion PUT a /MensajePersona se ejecuta la funcion updateMensajePersona del controlador
+    app.delete('/MensajePersona/:id', MensajePersonaController.deleteMensajePersona); //cuando se haga una peticion DELETE a /MensajePersona se ejecuta la funcion deleteMensajePersona del controlador
 }
 
 
