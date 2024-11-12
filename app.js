@@ -1,6 +1,7 @@
 const express = require('express'); // llamamos a express
 const mongoose = require('mongoose'); // llamamos a mongoose
 const MensajePersonaRoute = require('./routes/MensajePersonaRoute'); //importo el archivo de rutas
+const AuthRoute = require('./routes/AuthRoute'); //importo el archivo de rutas de autenticacion
 
 // realizar la conexion a la base de datos
 mongoose.connect('mongodb://localhost:27017/AppIIParcialPWII')

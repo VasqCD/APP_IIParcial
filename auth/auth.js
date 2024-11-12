@@ -57,12 +57,38 @@ exports.signUp = async (req, res) => {
         }
 
         // validar que el email no este registrado
-        const userVerify = await User.findOne({ email: password });
+        const userVerify = await User.findOne({ email: password }); //busco un usuario con el email que se recibe( password es el email)
         if (userVerify) {
             res.status(400).send("El email ya esta registrado");
             return;
         }
 
+        // crear un nuevo usuario
+        const user = await new User({
+            name: pNombre,
+            email: pEmail,
+            password: pPassword
+        });
+
+        // guardar el usuario en la base de datos
+        const savedUser = await user.save();
+
+        // crear el token el cual tiene tres partes: el header, el payload y la firma
+        // el payload es la informacion que se quiere enviar en el token
+        // la firma es la parte que se encripta con la clave secreta
+        
+        // creamos el payload
+        const payload = {
+            id: savedUser.id,
+            name: savedUser.name,
+            email: savedUser.email
+        };
+
+        // creamos el token
+        const token = jwt.sign(payload, SECRET_KEY);
+
+        // se envia el token al cliente
+        res.status(200).send({ savedUser, token });
 
     } catch (error) {
         console.log('Error en signUp: ', error);
