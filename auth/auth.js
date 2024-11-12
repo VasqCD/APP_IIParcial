@@ -11,7 +11,7 @@ Dentro de este archivo se va a colocar toda la logica que corresponde a la auten
 const User = require('../models/user');
 //importo la libreria de jsonwebtoken y bcrypt
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 
 /*
@@ -25,7 +25,7 @@ y en el archivo principal se debe colocar require('dotenv').config();
 y en el archivo .env se debe colocar SECRET_KEY=claveSecret
 EN ESTE SE COLOCA AQUI CON FINES DIDACTICOS
 */
-const SECRET_KEY = 'claveSecreta123'; //clave secreta para encriptar el token
+const SECRET_KEY = 'Esta-es-laClaveSecreta321123'; //clave secreta para encriptar el token
 
 // Controlador para crear un usuario
 exports.signUp = async (req, res) => {
@@ -57,14 +57,14 @@ exports.signUp = async (req, res) => {
         }
 
         // validar que el email no este registrado
-        const userVerify = await User.findOne({ email: password }); //busco un usuario con el email que se recibe( password es el email)
+        const userVerify = await User.findOne({ email: pEmail }); //se busca un usuario con el email que se recibio
         if (userVerify) {
             res.status(400).send("El email ya esta registrado");
             return;
         }
 
         // crear un nuevo usuario
-        const user = await new User({
+        const user = new User({
             name: pNombre,
             email: pEmail,
             password: pPassword
@@ -93,5 +93,49 @@ exports.signUp = async (req, res) => {
     } catch (error) {
         console.log('Error en signUp: ', error);
         res.status(500).send('Error en el servidor SignUp');
+    }
+}
+
+
+// Controlador para hacer login
+exports.logIn  = async (req, res) => {
+    try{
+        // obtener los datos que se reciben en la peticion usuario y contraseña
+        const pEmail = req.body.email;
+        const pPassword = req.body.password;
+
+        // obtener de la base de datos el usuario con el email que se recibio
+        const user = await User.findOne({email: req.body.email});
+
+        // si no existe el usuario
+        if(!user || user == null){
+            res.status(400).send('El email o la contraseña son incorrectos');
+            return;
+        }
+
+        // verificar la contraseña
+        const isMatch = await bcrypt.compare(pPassword, user.password);
+
+        // si la contraseña no coincide
+        if(!isMatch){
+            res.status(400).send('El email o la contraseña son incorrectos');
+            return;
+        }
+
+        // si el usuario y la contraseña son correctos se crea el token
+        const payload = {
+            id: user.id,
+            name: user.name,
+            email: user.email
+        };
+
+        const token = jwt.sign(payload, SECRET_KEY);
+
+        // se envia el token al cliente
+        res.status(200).send({user, token});
+
+    }catch(error){
+        console.log('Error en logIn: ', error);
+        res.status(500).send('Error en el servidor logIn');
     }
 }

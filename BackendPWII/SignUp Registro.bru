@@ -1,0 +1,19 @@
+meta {
+  name: SignUp Registro
+  type: http
+  seq: 9
+}
+
+post {
+  url: http:localhost:3000/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "name": "nombre",
+      "email": "test@mail.om",
+      "password": "123456"
+  }
+}

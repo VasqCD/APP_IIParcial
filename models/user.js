@@ -3,13 +3,13 @@
 // se deben instalar las librerias con npm install mongoose bcrypt jsonwebtoken
 
 const mongoose = require('mongoose'); //importo la libreria de mongoose
-const bcrypt = require('bcrypt'); //importo la libreria de bcrypt para encriptar la contraseña
+const bcrypt = require('bcryptjs'); //importo la libreria de bcrypt para encriptar la contraseña
 
 //defino el esquema
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true, //es obligatorio
+        required: true //es obligatorio
     },
     email: {
         type: String,

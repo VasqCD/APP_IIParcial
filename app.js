@@ -18,6 +18,9 @@ mongoose.connect('mongodb://localhost:27017/AppIIParcialPWII')
 
     MensajePersonaRoute(app); //llamo a la funcion que exporte en el archivo de rutas y le paso la app
 
+    AuthRoute(app); //llamo a la funcion que exporte en el archivo de rutas de autenticacion y le paso la app
+
+    
 // primero hacer dos endpoints
 // es decir la ruta o url que se va a llamar
 
